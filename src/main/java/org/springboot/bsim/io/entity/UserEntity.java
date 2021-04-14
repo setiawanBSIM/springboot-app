@@ -2,16 +2,18 @@ package org.springboot.bsim.io.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "userTBL")
+@SequenceGenerator(name="seqUSR", initialValue=100, allocationSize=50)
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1012644246865096079L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
-    @SequenceGenerator(name = "sequence-generator", sequenceName = "sequence_usr", allocationSize = 5)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqUSR")
     private long id;
 
     @Column(nullable = false)
@@ -19,6 +21,9 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false, columnDefinition = "VARCHAR(50)", length = 50)
     private String username;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WalletsEntity> walletsentity = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -44,6 +49,14 @@ public class UserEntity implements Serializable {
         this.username = username;
     }
 
+    public List<WalletsEntity> getWalletsentity() {
+        return walletsentity;
+    }
+
+    public void setWalletsentity(List<WalletsEntity> walletsentity) {
+        this.walletsentity = walletsentity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,7 +66,8 @@ public class UserEntity implements Serializable {
 
         if (id != that.id) return false;
         if (!userid.equals(that.userid)) return false;
-        return username.equals(that.username);
+        if (!username.equals(that.username)) return false;
+        return walletsentity != null ? walletsentity.equals(that.walletsentity) : that.walletsentity == null;
     }
 
     @Override
@@ -61,6 +75,7 @@ public class UserEntity implements Serializable {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + userid.hashCode();
         result = 31 * result + username.hashCode();
+        result = 31 * result + (walletsentity != null ? walletsentity.hashCode() : 0);
         return result;
     }
 }
