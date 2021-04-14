@@ -10,13 +10,9 @@ import org.springboot.bsim.service.iservice.IWalletsService;
 import org.springboot.bsim.shared.dto.UserDTO;
 import org.springboot.bsim.shared.dto.WalletsDTO;
 import org.springboot.bsim.shared.utils.GenerateRandomPublicId;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
-import javax.jws.WebParam;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

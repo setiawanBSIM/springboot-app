@@ -63,4 +63,13 @@ public class UserDTO implements Serializable {
         result = 31 * result + (wallets != null ? wallets.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
+    }
 }

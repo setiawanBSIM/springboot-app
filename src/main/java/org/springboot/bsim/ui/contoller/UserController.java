@@ -45,6 +45,7 @@ public class UserController {
         ModelMapper mapper = new ModelMapper();
 
         UserDTO userDTO = mapper.map(user, UserDTO.class);
+        System.out.println(userDTO.toString());
         UserDTO createdUser = userService.addNewData(userDTO);
 
         UserResponse resp = mapper.map(createdUser, UserResponse.class);

@@ -1,6 +1,7 @@
 package org.springboot.bsim.io.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "walletsTBL")
@@ -24,9 +25,20 @@ public class WalletsEntity {
     @Column(nullable = false)
     private String nohp;
 
+    @OneToMany(mappedBy = "walletId")
+    private List<TransactionsEntity> transactionsEntity;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
     private UserEntity user;
+
+    public List<TransactionsEntity> getTransactionsEntity() {
+        return transactionsEntity;
+    }
+
+    public void setTransactionsEntity(List<TransactionsEntity> transactionsEntity) {
+        this.transactionsEntity = transactionsEntity;
+    }
 
     public long getId() {
         return id;
@@ -100,5 +112,18 @@ public class WalletsEntity {
         result = 31 * result + nohp.hashCode();
         result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "WalletsEntity{" +
+                "id=" + id +
+                ", walletid='" + walletid + '\'' +
+                ", name='" + name + '\'' +
+                ", balance=" + balance +
+                ", nohp='" + nohp + '\'' +
+                ", transactionsEntity=" + transactionsEntity +
+                ", user=" + user +
+                '}';
     }
 }
