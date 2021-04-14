@@ -1,32 +1,43 @@
 package org.springboot.bsim.ui.model.response;
 
+import org.springboot.bsim.shared.dto.WalletsDTO;
+
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class TransactionsResponse {
-    private Long WalletId;
+    private WalletsDTO wallet;
     private String transactionsId;
     private String name;
     private Long amount;
     private LocalDateTime tanggal;
+    private boolean isDeleted;
 
     public TransactionsResponse() {
     }
 
-    public TransactionsResponse(Long walletId, String transactionsId, String name, Long amount, LocalDateTime tanggal) {
-        WalletId = walletId;
+    public TransactionsResponse(WalletsDTO wallet, String transactionsId, String name, Long amount, LocalDateTime tanggal, boolean isDeleted) {
+        this.wallet = wallet;
         this.transactionsId = transactionsId;
         this.name = name;
         this.amount = amount;
         this.tanggal = tanggal;
+        this.isDeleted = isDeleted;
     }
 
-    public Long getWalletId() {
-        return WalletId;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setWalletId(Long walletId) {
-        WalletId = walletId;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public WalletsDTO getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(WalletsDTO wallet) {
+        this.wallet = wallet;
     }
 
     public String getTransactionsId() {
@@ -59,19 +70,5 @@ public class TransactionsResponse {
 
     public void setTanggal(LocalDateTime tanggal) {
         this.tanggal = tanggal;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TransactionsResponse that = (TransactionsResponse) o;
-        if(!transactionsId.equals(that.transactionsId)) return false;
-        return transactionsId == that.transactionsId && Objects.equals(WalletId, that.WalletId) && Objects.equals(name, that.name) && Objects.equals(amount, that.amount) && Objects.equals(tanggal, that.tanggal);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(WalletId, transactionsId, name, amount, tanggal);
     }
 }

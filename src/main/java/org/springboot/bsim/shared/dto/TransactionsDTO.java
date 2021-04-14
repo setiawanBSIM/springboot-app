@@ -2,35 +2,48 @@ package org.springboot.bsim.shared.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class TransactionsDTO implements Serializable {
     private static final long serialVersionUID = 9067772810151137938L;
-    private long WalletId;
+    private WalletsDTO wallet;
     private String transactionsId;
     private LocalDateTime tanggal;
     private long amount;
     private String name;
     private long id;
+    private boolean isDeleted;
 
     public TransactionsDTO() {
     }
 
-    public TransactionsDTO(long walletId, String transactionsId, LocalDateTime tanggal, long amount, String name, long id) {
-        WalletId = walletId;
+    public TransactionsDTO(WalletsDTO wallet, String transactionsId, LocalDateTime tanggal, long amount, String name, long id, boolean isDeleted) {
+        this.wallet = wallet;
         this.transactionsId = transactionsId;
         this.tanggal = tanggal;
         this.amount = amount;
         this.name = name;
         this.id = id;
+        this.isDeleted = isDeleted;
     }
 
-    public long getWalletId() {
-        return WalletId;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setWalletId(long walletId) {
-        WalletId = walletId;
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public WalletsDTO getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(WalletsDTO wallet) {
+        this.wallet = wallet;
     }
 
     public String getTransactionsId() {
@@ -72,29 +85,5 @@ public class TransactionsDTO implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TransactionsDTO that = (TransactionsDTO) o;
-        return WalletId == that.WalletId && amount == that.amount && id == that.id && Objects.equals(transactionsId, that.transactionsId) && Objects.equals(tanggal, that.tanggal) && Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(WalletId, transactionsId, tanggal, amount, name, id);
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionsDTO{" +
-                "WalletId=" + WalletId +
-                ", transactionsId='" + transactionsId + '\'' +
-                ", tanggal=" + tanggal +
-                ", amount=" + amount +
-                ", name='" + name + '\'' +
-                ", id=" + id +
-                '}';
-    }
 }
+

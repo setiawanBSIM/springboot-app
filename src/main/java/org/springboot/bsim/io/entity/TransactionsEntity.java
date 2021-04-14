@@ -18,8 +18,12 @@ public class TransactionsEntity implements Serializable {
 
     private String name;
 
-    @Column(name = "wallet_id")
-    private long walletId;
+    @Column(name="is_deleted")
+    private boolean isDeleted = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_id")
+    private WalletsEntity walletId;
 
     private long amount;
 
@@ -28,13 +32,29 @@ public class TransactionsEntity implements Serializable {
     public TransactionsEntity() {
     }
 
-    public TransactionsEntity(long id, String transactionsId, String name, long walletId, long amount, LocalDateTime tanggal) {
+    public TransactionsEntity(long id, String transactionsId, String name, WalletsEntity walletId, long amount, LocalDateTime tanggal) {
         this.id = id;
         this.transactionsId = transactionsId;
         this.name = name;
         this.walletId = walletId;
         this.amount = amount;
         this.tanggal = tanggal;
+    }
+
+    public WalletsEntity getWalletId() {
+        return walletId;
+    }
+
+    public void setWalletId(WalletsEntity walletId) {
+        this.walletId = walletId;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public long getId() {
@@ -61,13 +81,6 @@ public class TransactionsEntity implements Serializable {
         this.name = name;
     }
 
-    public long getWalletId() {
-        return walletId;
-    }
-
-    public void setWalletId(long walletId) {
-        this.walletId = walletId;
-    }
 
     public long getAmount() {
         return amount;

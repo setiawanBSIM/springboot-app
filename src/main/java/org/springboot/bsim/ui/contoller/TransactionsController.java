@@ -35,20 +35,17 @@ public class TransactionsController {
         return returnValue;
     }
 
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public TransactionsResponse addTransactions(@RequestBody TransactionsRequest transactionsRequest) {
+    @PostMapping(path = "/{walletId}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public TransactionsResponse addTransactions(@PathVariable String walletId, @RequestBody TransactionsRequest transactionsRequest) {
 
-        System.out.println(transactionsRequest.toString());
         ModelMapper modelMapper = new ModelMapper();
-        /* TransactionsDTO transactionsDTO = modelMapper.map(transactionsRequest, TransactionsDTO.class);*/
+
         TransactionsDTO transactionsDTO = new TransactionsDTO();
 
         transactionsDTO.setAmount(transactionsRequest.getAmount());
         transactionsDTO.setTanggal(transactionsRequest.getTanggal());
         transactionsDTO.setName(transactionsRequest.getName());
-        transactionsDTO.setWalletId(transactionsRequest.getWalletId());
-        System.out.println(transactionsDTO.toString());
-        TransactionsDTO createdTransactions = transactionsService.addTransactions(transactionsDTO);
+        TransactionsDTO createdTransactions = transactionsService.addTransactions(transactionsDTO, walletId);
 
         TransactionsResponse returnValue = modelMapper.map(createdTransactions, TransactionsResponse.class);
 
@@ -56,7 +53,7 @@ public class TransactionsController {
     }
 
     @GetMapping(path = "/{walletId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<TransactionsResponse> getTransactionsByWalletId(@PathVariable long walletId) {
+    public List<TransactionsResponse> getTransactionsByWalletId(@PathVariable String walletId) {
         List<TransactionsDTO> transactionsDTO = transactionsService.getTransactionsByWalletId(walletId);
 
         ModelMapper modelMapper = new ModelMapper();
@@ -69,18 +66,28 @@ public class TransactionsController {
     }
 
     @PutMapping(path = "/{walletId}/{transactionsId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public TransactionsResponse updateTransactions(@PathVariable long walletId, @PathVariable String transactionsId, @RequestBody TransactionsRequest transactionsRequest) {
+    public TransactionsResponse updateTransactions(@PathVariable String walletId, @PathVariable String transactionsId, @RequestBody TransactionsRequest transactionsRequest) {
         ModelMapper modelMapper = new ModelMapper();
-
-        transactionsRequest.setWalletId(walletId);
 
         TransactionsDTO transactionsDTO = modelMapper.map(transactionsRequest, TransactionsDTO.class);
 
-        TransactionsDTO updateTransactions = transactionsService.updateTransactions(transactionsDTO, transactionsId);
+        TransactionsDTO updateTransactions = transactionsService.updateTransactions(transactionsDTO, transactionsId, walletId);
 
         TransactionsResponse returnvalue = modelMapper.map(updateTransactions, TransactionsResponse.class);
 
         return returnvalue;
+    }
+
+
+
+    @DeleteMapping(path = "/{walletId}/{transactionsId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public TransactionsResponse deleteTransactions(@PathVariable String walletId, @PathVariable String transactionsId){
+        ModelMapper modelMapper = new ModelMapper();
+
+        TransactionsDTO transactionsDTO = transactionsService.deleteTransactions(walletId, transactionsId);
+        TransactionsResponse returnValue = modelMapper.map(transactionsDTO, TransactionsResponse.class);
+
+        return returnValue;
     }
 
 

@@ -1,31 +1,30 @@
 package org.springboot.bsim.ui.model.request;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class TransactionsRequest {
 
-    private long walletId;
     private LocalDateTime tanggal;
     private long amount;
     private String name;
+    private boolean isDeleted;
 
     public TransactionsRequest() {
     }
 
-    public TransactionsRequest(long walletId, LocalDateTime tanggal, long amount, String name) {
-        this.walletId = walletId;
+    public TransactionsRequest(LocalDateTime tanggal, long amount, String name, boolean isDeleted) {
         this.tanggal = tanggal;
         this.amount = amount;
         this.name = name;
+        this.isDeleted = isDeleted;
     }
 
-    public long getWalletId() {
-        return walletId;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setWalletId(long walletId) {
-        this.walletId = walletId;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public LocalDateTime getTanggal() {
@@ -50,28 +49,5 @@ public class TransactionsRequest {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TransactionsRequest that = (TransactionsRequest) o;
-        return walletId == that.walletId && amount == that.amount && Objects.equals(tanggal, that.tanggal) && Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(walletId, tanggal, amount, name);
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionsRequest{" +
-                "walletId=" + walletId +
-                ", tanggal=" + tanggal +
-                ", amount=" + amount +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

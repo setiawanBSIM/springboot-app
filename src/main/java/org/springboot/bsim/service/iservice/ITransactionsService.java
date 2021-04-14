@@ -1,7 +1,6 @@
 package org.springboot.bsim.service.iservice;
 
 import org.springboot.bsim.shared.dto.TransactionsDTO;
-import org.springboot.bsim.ui.model.request.TransactionsRequest;
 
 import java.util.List;
 
@@ -9,10 +8,12 @@ import java.util.List;
 public interface ITransactionsService {
     List<TransactionsDTO> getListTransactions();
 
-    TransactionsDTO addTransactions(TransactionsDTO transactionsDTO);
+    TransactionsDTO addTransactions(TransactionsDTO transactionsDTO, String walletId);
 
-    List<TransactionsDTO> getTransactionsByWalletId(long walletId);
+    List<TransactionsDTO> getTransactionsByWalletId(String walletId);
 
 
-    TransactionsDTO updateTransactions(TransactionsDTO transactionsDTO, String transactionsId);
+    TransactionsDTO updateTransactions(TransactionsDTO transactionsDTO, String transactionsId, String walletId);
+
+    TransactionsDTO deleteTransactions(String walletId, String transactionsId);
 }
