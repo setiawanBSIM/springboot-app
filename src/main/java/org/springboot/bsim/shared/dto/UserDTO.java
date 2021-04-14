@@ -51,4 +51,13 @@ public class UserDTO implements Serializable {
         result = 31 * result + userName.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
+    }
 }

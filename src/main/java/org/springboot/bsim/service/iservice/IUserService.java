@@ -11,4 +11,5 @@ public interface IUserService {
     // Single Value
     UserDTO getUserByUsername(String userName);
     UserDTO addNewData(UserDTO user);
+
 }
