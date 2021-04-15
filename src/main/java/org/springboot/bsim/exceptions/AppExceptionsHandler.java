@@ -7,14 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class AppExceptionsHandler {
     // Custom Exceptions
     @ExceptionHandler(value = {UserServiceException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleUserServiceException(UserServiceException ex, WebRequest request){
         ErrorMessageModel errorMessageModel = new ErrorMessageModel(new Date(), ex.getMessage());
         return new ResponseEntity<>(errorMessageModel, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -22,6 +25,7 @@ public class AppExceptionsHandler {
 
     // Other Exceptions
     @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleUserServiceException(Exception ex, WebRequest request){
         ErrorMessageModel errorMessageModel = new ErrorMessageModel(new Date(), ex.getMessage());
         return new ResponseEntity<>(errorMessageModel, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,5 +1,10 @@
 package org.springboot.bsim.ui.contoller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springboot.bsim.exceptions.service_exception.UserServiceException;
 import org.springboot.bsim.exceptions.enumerations.ErrorMessages;
@@ -12,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -20,6 +26,14 @@ public class UserController {
     @Autowired
     IUserService userService;
 
+    @Operation(summary = "Get All Registered Users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Users Found",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Users Not Found", content = @Content)
+    })
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<UserResponse> getUsers(){
         List<UserDTO> users = userService.getListUser();
