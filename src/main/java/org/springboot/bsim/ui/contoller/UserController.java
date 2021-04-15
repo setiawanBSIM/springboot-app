@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
-import org.springboot.bsim.exceptions.service_exception.UserServiceException;
 import org.springboot.bsim.exceptions.enumerations.ErrorMessages;
+import org.springboot.bsim.exceptions.service_exception.ServiceException;
 import org.springboot.bsim.service.iservice.IUserService;
 import org.springboot.bsim.shared.dto.UserDTO;
 import org.springboot.bsim.ui.model.request.UserRequest;
@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -50,7 +49,7 @@ public class UserController {
     public UserResponse getUserByUsername(@PathVariable String username) throws Exception {
         UserDTO getUser = userService.getUserByUsername(username);
         if(getUser == null)
-            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+            throw new ServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         return new ModelMapper().map(getUser, UserResponse.class);
     }
 
