@@ -56,6 +56,9 @@ public class TransactionsServiceImpl implements ITransactionsService {
 
         TransactionsDTO returnValue = modelMapper.map(storedValue, TransactionsDTO.class);
 
+        walletsEntity.setBalance(walletsEntity.getBalance() - returnValue.getAmount());
+        walletsRepository.save(walletsEntity);
+
         return returnValue;
     }
 
@@ -78,11 +81,15 @@ public class TransactionsServiceImpl implements ITransactionsService {
 
     @Override
     public TransactionsDTO updateTransactions(TransactionsDTO transactionsDTO, String transactionsId, String walletId) {
+        long amountInit= 0;
+        long amountEdit=transactionsDTO.getAmount();
+        long balance = 0;
 
         ModelMapper modelMapper = new ModelMapper();
 
         WalletsEntity walletsEntity = walletsRepository.findByWalletid(walletId);
         TransactionsEntity IdEntity = transactionsRepository.findIdByTransactionsId(transactionsId);
+        amountInit=IdEntity.getAmount();
 
         TransactionsEntity entity = modelMapper.map(transactionsDTO, TransactionsEntity.class);
         entity.setTransactionsId(transactionsId);
@@ -92,6 +99,14 @@ public class TransactionsServiceImpl implements ITransactionsService {
         TransactionsEntity updatedValue = transactionsRepository.save(entity);
 
         TransactionsDTO returnValue = modelMapper.map(updatedValue, TransactionsDTO.class);
+        balance = walletsEntity.getBalance();
+
+        if (amountInit - amountEdit > 0 ){
+            walletsEntity.setBalance(walletsEntity.getBalance() + (amountInit-amountEdit));
+        } else {
+            walletsEntity.setBalance(walletsEntity.getBalance() - (amountEdit-amountInit));
+        }
+        walletsRepository.save(walletsEntity);
 
         return returnValue;
     }
